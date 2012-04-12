@@ -25,6 +25,12 @@ when "centos","redhat","scientific","fedora"
     include_recipe "yum::epel"
   end
   package "git"
+when "solaris2","smartos"
+  # TODO when chef/ohai official releases recognize smartos, remove "solaris2"
+  execute "install git with pkgin" do
+    command "pkgin -y install scmgit"
+    not_if "pkgin list | grep scmgit"
+  end
 else
   package "git"
 end
